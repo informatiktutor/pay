@@ -123,9 +123,27 @@
   const on = document.querySelector('#button-bank-transfer');
   const off = second.querySelector('button.delete');
 
+  function elementPosition(element) {
+    if (!element.offsetParent) {
+      return;
+    }
+    let top = 0;
+    do {
+        top += element.offsetTop;
+    }
+    while (element = element.offsetParent);
+    return top;
+  }
+
   on.addEventListener('click', function (e) {
     first.classList.add('is-hidden');
     second.classList.remove('is-hidden');
+    setTimeout(function () {
+      window.scroll({
+        top: second.offsetTop - 25,
+        behavior: 'smooth'
+      });
+    }, 50);
   });
 
   off.addEventListener('click', function (e) {
