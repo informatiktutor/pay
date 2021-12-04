@@ -3,7 +3,7 @@ var router = express.Router();
 
 const encoding = require('../lib/encoding');
 const { handle: db } = require('../lib/database');
-const { getPayment } = require('../lib/payment');
+const { getPayment, formattedPayment } = require('../lib/payment');
 const hyphenate = require('../lib/hyphenate');
 const config = require('../config');
 const { form_parameters } = require('../lib/constants');
@@ -37,6 +37,23 @@ router.put('/:id/status', async function (req, res) {
   res.sendStatus(200);
 });
 
+const example = {
+  key: 'beispiel', // make sure this one cannot be a valid id!
+  payment: formattedPayment({
+    title: 'Hilfe bei Deinem Aufgabenblatt',
+    description: 'Dies ist ein Beispiel für die Zahlung meiner Nachhilfe. Wähle einer der unten stehenden Zahlungsmethoden um fortzufahren!',
+    price_cents: 15.00 * 100,
+    currency_code: 'EUR',
+    reference: 'INF000BSP',
+    paid: 0,
+  }),
+  bank_details: {
+    recipient: 'Beispiel',
+    iban: 'DE01 0000 0000 0123 4567 89',
+    bic: 'BEISPIEL'
+  }
+};
+
 router.get('/:id?', async function (req, res, next) {
   const encodedId = req.params.id;
   if (encodedId === undefined) {
@@ -46,33 +63,45 @@ router.get('/:id?', async function (req, res, next) {
     return;
   }
 
-  let decoded;
-  try {
-    decoded = encoding.decode(encodedId);
-  }
-  catch (err) {
-    res.redirect(307, '/');
-    return;
-  }
-
-  // if (process.env.ENV === 'development') {
-  //   if (!req.session.authenticated) {
-  //     res.redirect(loginNextUrl(req.originalUrl));
-  //   }
-  // }
-
-  const { id, key } = decoded;
   let payment;
-  try {
-    payment = await getPayment(id, key);
+  let paypal_sdk_parameters;
+  let bank_details;
+
+  if (encodedId === example.key) {
+    payment = example.payment;
+    bank_details = example.bank_details
   }
-  catch (err) {
-    if (req.session.authenticated) {
-      res.redirect(307, '/dashboard');
-    } else {
-      res.redirect(307, '/');
+  else {
+    let decoded;
+    try {
+      decoded = encoding.decode(encodedId);
     }
-    return;
+    catch (err) {
+      console.log(err);
+      res.redirect(307, '/');
+      return;
+    }
+
+    // if (process.env.ENV === 'development') {
+    //   if (!req.session.authenticated) {
+    //     res.redirect(loginNextUrl(req.originalUrl));
+    //   }
+    // }
+
+    const { id, key } = decoded;
+    try {
+      payment = await getPayment(id, key);
+    }
+    catch (err) {
+      if (req.session.authenticated) {
+        res.redirect(307, '/dashboard');
+      } else {
+        res.redirect(307, '/');
+      }
+      return;
+    }
+
+    bank_details = config.bank_details;
   }
 
   // Do not show archived payments to non-authenticated users.
@@ -84,7 +113,7 @@ router.get('/:id?', async function (req, res, next) {
   // Manually hyphenate the description.
   // payment.description = await hyphenate(payment.description);
 
-  const paypal_sdk_parameters = Object.assign({}, config.paypal_sdk_parameters);
+  paypal_sdk_parameters = Object.assign({}, config.paypal_sdk_parameters);
   paypal_sdk_parameters.currency = payment.currency_code;
 
   res.render('pay', {
@@ -94,7 +123,7 @@ router.get('/:id?', async function (req, res, next) {
     authenticated: req.session.authenticated,
     show_controls: req.session.authenticated,
     payment: payment,
-    bank_details: config.bank_details,
+    bank_details: bank_details,
     recipient: config.recipient,
     header: {
       center_brand_only: !req.session.authenticated
