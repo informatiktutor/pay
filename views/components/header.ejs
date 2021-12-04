@@ -1,0 +1,68 @@
+<div class="header-container">
+  <div class="columns navbar-container is-mobile is-centered">
+    <% local_layout = typeof column_layout !== 'undefined' && column_layout ? column_layout : '' %>
+    <div class="column pb-0 is-12-mobile <%= local_layout %>">
+      <nav class="navbar <%= locals.small ? 'is-small' : '' %>">
+        <% if (!locals.authenticated) { %>
+          <div class="navbar-brand <%=
+              locals.header && locals.header.center_brand_only
+              ? 'is-centered' : '' %>">
+            <div class="navbar-item has-text-centered">
+              <a id="page-title" class="is-link" href="/">
+                <b>pay.informatiktutor.de</b>
+              </a>
+            </div>
+          </div>
+        <% } %>
+        <% if (!locals.header || !locals.header.center_brand_only) { %>
+          <div class="navbar-menu is-active">
+            <% if (locals.authenticated) { %>
+              <div class="navbar-start">
+                <% if (locals.is_dashboard) { %>
+                  <div class="navbar-item">
+                    <a href="/" class="button is-outlined has-text-grey is-spaced">
+                      Startseite
+                    </a>
+                  </div>
+                <% } else { %>
+                  <div class="navbar-item">
+                    <a href="/dashboard" class="button is-info is-light is-outlined is-spaced">
+                      Dashboard
+                    </a>
+                  </div>
+                <% } %>
+              </div>
+            <% } %>
+            <div class="navbar-end">
+              <% if (locals.authenticated) { %>
+                <% if (locals.is_dashboard) { %>
+                  <div class="navbar-item">
+                    <a href="/logout" class="button is-danger is-outlined">
+                      Abmelden
+                    </a>
+                  </div>
+                <% } %>
+                <% if (locals.payment && locals.show_controls) { %>
+                  <div class="navbar-item">
+                    <button class="button delete-button is-danger is-light is-outlined is-spaced">
+                      Löschen
+                    </button>
+                  </div>
+                <% } %>
+              <% } else { %>
+                <div class="navbar-item">
+                  <a href="/login" class="button has-text-grey-dark is-outlined">
+                    Anmelden
+                  </a>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      </nav>
+    </div>
+  </div>
+  <% if (locals.show_controls) { %>
+    <%- include('payment-controls.ejs') %>
+  <% } %>
+</div>

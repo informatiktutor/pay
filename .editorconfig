@@ -11,5 +11,5 @@ charset = utf-8
 trim_trailing_whitespace = false
 insert_final_newline = false
 
-[*.{scss,js,ejs,json}]
+[*.{scss,js,ejs,json,sql};./bin/*]
 indent_size = 2

@@ -1,0 +1,44 @@
+<div class="columns navbar-container payment-controls is-mobile is-centered">
+  <% local_layout = typeof column_layout !== 'undefined'
+    && column_layout ? column_layout : '' %>
+  <div class="column pt-0 pb-0 is-12-mobile <%= local_layout %>">
+    <nav class="navbar">
+      <div class="navbar-menu is-active">
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="toggle is-<%= !payment.archived ? 'first' : 'second' %>">
+              <button class="button status-button is-success is-light is-outlined"
+                  data-status="archived" data-value="true">
+                Aktiv
+              </button>
+              <button class="button status-button is-warning is-light is-outlined"
+                  data-status="archived" data-value="false">
+                Archiviert
+              </button>
+            </div>
+          </div>
+          <div class="navbar-item">
+            <div class="toggle is-<%= !payment.paid ? 'first' : 'second' %>">
+              <button class="button status-button is-warning is-light is-outlined"
+                  data-status="paid" data-value="true">
+                Ausstehend
+              </button>
+              <button class="button status-button is-success is-light is-outlined"
+                  data-status="paid" data-value="false">
+                Bezahlt
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <a href="/<%= payment.identifier %>/edit"
+                class="button is-outlined has-text-grey is-spaced-not-mobile">
+              Bearbeiten
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

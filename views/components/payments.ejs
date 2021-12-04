@@ -1,0 +1,64 @@
+<% if (payments.length > 0) { %>
+  <div class="payments-container">
+    <% for (const payment of payments) { %>
+      <div class="payment-item is-<%=
+          payment.paid ? '' : 'not-' %>paid<%=
+          payment.archived ? ' is-archived' : '' %>">
+        <div class="columns is-mobile is-centered mb-0">
+          <div class="column pb-0 is-text-overflow">
+            <h5 class="title field-title is-6">
+              <b><%= payment.title %></b>
+            </h5>
+            <p class="subtitle field-description is-6 is-text-overflow has-text-grey-dark">
+              <%= payment.description %>
+            </p>
+          </div>
+          <div class="column pb-0 is-narrow has-text-right pt-2">
+            <div>
+              <span class="field-price">
+                <span class="has-text-weight-bold"><%= payment.price %></span>
+                <span><%= payment.currency_code %></span>
+              </span>
+            </div>
+            <p class="field-reference is-family-monospace has-text-grey-dark">
+              <%= payment.reference %>
+            </p>
+          </div>
+        </div>
+        <% today = new Date() %>
+        <% yesterday = new Date() %>
+        <% yesterday.setDate(today.getDate() - 1) %>
+        <% payment_date_string = payment.date_created.toDateString() %>
+        <% is_today = today.toDateString() === payment_date_string; %>
+        <% is_yesterday = yesterday.toDateString() === payment_date_string; %>
+        <% age_delta = today.getTime() - payment.date_created.getTime() %>
+        <% age_minutes = parseInt(Math.abs(age_delta) / (1000 * 60)) %>
+        <div class="field-date mt-2 is-fullwidth has-text-grey">
+          <% if (age_minutes <= 10) { %>
+            gerade eben
+          <% } else { %>
+            <% if (is_today) { %>
+              um
+            <% } else if (is_yesterday) {  %>
+              gestern um 
+            <% } else { %>
+              vom <%= payment.date_created.toLocaleDateString(undefined, {
+                day: 'numeric',
+                month: 'long'
+              }); %> um
+            <% } %>
+            <%= payment.date_created.toLocaleTimeString(undefined, {
+              hour: '2-digit',
+              minute: '2-digit'
+            }); %> Uhr
+          <% } %>
+        </div>
+        <a class="payment-url" href="/<%= payment.identifier %>">
+          <span class="cover"></span>
+        </a>
+      </div>
+    <% } %>
+  </div>
+<% } else { %>
+  <p class="is-italic">Keine vorhanden.</p>
+<% } %>

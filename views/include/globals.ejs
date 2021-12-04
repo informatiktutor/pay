@@ -1,0 +1,8 @@
+<% ENV = process.env.ENV -%>
+<% is_production = ENV === 'production' -%>
+<% is_development = ENV === 'development' || ENV === undefined -%>
+<% domain = 'informatiktutor.de' -%>
+<%# set the default layout to prevent that a cached version is used
+  on a page that does not define this variable. %>
+<% column_layout = 'is-5-widescreen is-6-desktop is-8-tablet is-full-mobile' -%>
+<% narrow_column_layout = 'is-4-widescreen is-5-desktop is-6-tablet is-full-mobile' -%>

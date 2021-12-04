@@ -1,0 +1,11 @@
+<% if (locals.title) { %>
+  <title><%= title %></title>
+<% } %>
+<% if (locals.site_name || locals.title) { %>
+  <meta property="og:title" content="<%= locals.site_name || title %>" />
+  <meta property="og:site_name" content="<%= locals.site_name || locals.title %>">
+<% } %>
+<% if (locals.description) { %>
+  <meta property="og:description" content="<%= description %>" />
+<% } %>
+<meta property="og:type" content="website" />

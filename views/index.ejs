@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/styles/style.css' />
+    <%- include('include/head.ejs') %>
+    <%- include('include/meta.ejs', {
+      title: 'Bezahlfenster',
+      description: 'Beschreibung'
+    }) %>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <%- include('components/header.ejs') %>
+    <div class="content">
+      <div class="section">
+        <div class="content">
+          <div class="columns is-mobile is-centered">
+            <div class="column <%= column_layout %>">
+              <p>
+                Diese Seite dient dazu Bezahlmethoden
+                für meine Nachhilfe anzubieten.
+              </p>
+              <p>
+                Besuche
+                <a href="https://<%= domain %>" class="has-text-weight-semibold">
+                  <%= domain %>
+                </a>
+                um mehr zu erfahren.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('components/footer.ejs') %>
   </body>
 </html>

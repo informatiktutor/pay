@@ -1,0 +1,26 @@
+<div class="payment-button overlay-container">
+  <div class="paypal-button-container"
+    id="payment-button-container-paypal-sepa"></div>
+  <div class="overlay fill-parent">
+    <div class="overlay-background fill-parent"></div>
+    <div class="overlay-button fill-parent">
+      <button class="button button-option is-light is-fullwidth has-text-grey-darker">
+        <div class="field">
+          <div class="button-title">
+            <span class="has-text-weight-bold">Lastschrift</span>
+            <span class="has-text-grey-dark">oder</span>
+            <span class="has-text-weight-bold">Kreditkarte</span>
+          </div>
+          <div class="button-subtitle">
+            <span class="has-text-grey">
+              Abwicklung über
+            </span>
+            <%- include('../icons/paypal.ejs', {
+              classes: 'paypal-icon-inline'
+            }) %>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
