@@ -1,0 +1,129 @@
+<div class="section">
+  <h5 class="title is-5 has-text-centered mx-5">
+    <%= payment.paid ? 'Bezahlung abgeschlossen' : 'Nachhilfe bezahlen' %>
+  </h5>
+  <div class="notification is-bordered p-3 \
+      has-text-grey-dark has-text-weight-bold has-text-centered
+      <%= payment.paid ? 'is-success is-light' : 'field-price' %>">
+    <div class="title is-3">
+      <span id="content-price">
+        <%= payment.price_local %></span>&nbsp;<%= payment.currency_symbol %>
+    </div>
+  </div>
+  <div class="notification py-4 is-white is-bordered has-text-grey-darker">
+    <h6 class="title is-6 mb-2">
+      <%= payment.title %>
+    </h6>
+    <p style="hyphens: none; white-space: pre;"><%- payment.description %></p>
+  </div>
+</div>
+<% if (!payment.paid) { %>
+  <div id="view-payment-buttons" class="section">
+    <p class="has-text-centered has-text-grey" style="font-size: small;">
+      Zahlungsmethode wählen
+    </p>
+    <noscript>
+      <div class="notification is-danger is-light">
+        Bitte aktiviere
+        <span class="has-text-weight-semibold">JavaScript</span>
+        um die Zahlung durchzuführen.
+      </div>
+    </noscript>
+    <div class="payments-buttons-container nojs">
+      <%- include('payment-buttons/paypal-account.ejs') %>
+      <%- include('payment-buttons/paypal-sepa.ejs') %>
+      <%- include('payment-buttons/bank-transfer.ejs') %>
+    </div>
+  </div>
+  <div id="view-bank-transfer" class="section is-hidden">
+    <div class="card">
+    <div class="notification is-white is-bordered has-text-grey-darker">
+      <button class="delete m-3"></button>
+      <h6 class="title is-6">
+        Banküberweisung
+      </h6>
+      <p>
+        Überweise den angegebenen Betrag an das folgende Konto.
+        Gebe dabei auch den unten stehenden Verwendungszweck an.
+      </p>
+      <% fields = [
+        ['Empfänger', bank_details.recipient],
+        ['IBAN', bank_details.iban],
+        ['BIC', bank_details.bic],
+        ['Betrag', payment.price_local + '<span class="no-select">&nbsp;€</span>'],
+        ['Verwendungszweck', payment.reference],
+      ] %>
+      <div>
+        <% for (let i = 0; i < fields.length; i++) { %><!--
+        --><div class="">
+          <span class="tag is-size-smaller no-select is-info is-light has-text-weight-semibold mt-2 mr-3"><%=
+            fields[i][0]
+          %></span><!--
+          --><span class="tag is-size-smaller has-text-weight-semibold has-text-grey-darker mt-2"
+              style="background-color: rgb(251, 251, 251)"><%-
+            fields[i][1]
+          %></span>
+        </div><!--
+        --><% } %>
+      </div>
+      <hr>
+      <p>
+        Verwende die Funktion
+        <span class="tag is-size-smaller is-warning is-light has-text-weight-semibold px-2 py-0">
+          Echtzeitüberweisung
+        </span>
+        Deiner Bank um die Zahlung in wenigen Sekunden abzuschließen.
+        Diese ist auch unter dem Namen
+        <span class="tag is-size-smaller is-warning is-light has-text-weight-semibold px-2 py-0">
+          Instant&nbsp;Payment
+        </span>
+        bekannt.
+      </p>
+      <p>
+        <a href="https://www.konto.org/ratgeber/allgemein/instant-payment"
+        target="_blank" rel="noopener noreferrer"
+        class="button is-info is-light is-size-smaller">
+          Mehr erfahren
+        </a>
+      </p>
+    </div>
+    </div>
+  </div>
+<% } %>
+<div class="section">
+  <p class="has-text-centered has-text-grey" style="font-size: small;">
+    Deine Zahlung <%= payment.paid ? 'ging' : 'geht' %> an
+  </p>
+  <div class="notification is-white is-bordered">
+    <div class="has-text-weight-semibold has-text-grey-dark">
+      <%= recipient.name %>
+    </div>
+    <div>
+      <%= recipient.street %>
+    </div>
+    <div>
+      <%= recipient.city %>
+    </div>
+    <div>
+      <%= recipient.country %>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <p class="has-text-centered">
+    <span class="tag is-size-smaller is-warning is-light">
+      Du möchtest stornieren?
+    </span>
+  </p>
+  <p class="mx-4">
+    Sofern ich die vereinbarte Leistung noch nicht erbracht habe,
+    kannst Du Dein Geld jederzeit zurück erhalten.
+    Schreibe mir dazu einfach eine Nachricht.
+  </p>
+  <p class="has-text-centered pt-4">
+    <a href="https://<%= domain %>/kontakt.html"
+    class="button is-light is-outlined has-text-dark">
+      Zur Kontaktseite
+    </a>
+  </p>
+</div>

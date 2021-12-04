@@ -1,0 +1,323 @@
+@charset "utf-8";
+
+@import "../../node_modules/bulma/bulma";
+
+// https://github.com/jgthms/bulma/issues/1293
+html {
+  overflow-y: auto !important;
+}
+
+html, 
+body {
+  height: 100%;
+}
+
+// == footer ==
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+body > .content {
+  flex: 1;
+}
+
+footer.footer {
+  background-color: inherit;
+  padding: 1rem;
+  font-size: 9pt;
+  color: #777;
+
+  div.content {
+      * {
+          margin: 2pt;
+      }
+
+      a {
+          color: #777;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 1pt;
+      }
+  }
+}
+
+.toggle > * {
+  display: none;
+}
+.toggle.is-first > button:nth-of-type(1) {
+  display: flex;
+}
+.toggle.is-second > button:nth-of-type(2) {
+  display: flex;
+}
+
+// == footer ==
+
+.is-mobile-stacked {
+  @include mobile {
+    padding-top: 0px !important;
+  }
+}
+
+.is-auto-tablet {
+  @include tablet {
+    flex: none;
+    width: auto;
+  }
+}
+
+.is-button-width {
+  min-width: 125pt;
+}
+
+.navbar {
+  padding: 0.25em 0.75em !important;
+}
+
+.navbar-container {
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 0;
+}
+
+.header-container > .navbar-container:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.payment-controls nav {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: initial;
+
+  .button {
+    height: 1.75rem;
+  }
+}
+
+// .payment-controls {
+//   &.navbar,
+//   >.navbar-menu {
+//     // background-color: rgb(255, 254, 241);
+//   }
+// }
+
+#page-title {
+  height: 2.5em;
+  line-height: 2.5em;
+}
+
+a.button.is-spaced,
+button.button.is-spaced,
+.is-spaced-not-mobile {
+  min-width: 8rem;
+}
+
+.is-spaced-not-mobile {
+  @include mobile {
+    min-width: initial;
+  }
+}
+
+// [id^="paypal-overlay"] {
+//   @include mobile {
+//     display: none !important;
+//   }
+// }
+
+// === SPECIFIC ===
+
+.payment-item {
+  // border: 1px solid lightgrey;
+  border-radius: 4px;
+  position: relative;
+  padding: 1rem 1.25rem 1rem 1.25rem;
+  margin-bottom: 1rem;
+  user-select: none;
+
+  $paid: adjust-color($success, $lightness: +40%, $saturation: +20%); // rgb(213, 252, 207);
+  $unpaid: rgb(253, 251, 230);
+
+  &.is-not-paid {
+    background-color: $unpaid;
+    border: 1px solid adjust-color($unpaid, $lightness: -20%, $saturation: -40%);
+    &:hover {
+      background-color: adjust-color($unpaid, $lightness: -4%);
+    }
+  }
+
+  &.is-paid {
+    background-color: $paid;
+    border: 1px solid adjust-color($paid, $lightness: -20%, $saturation: -40%);
+    &:hover {
+      background-color: adjust-color($paid, $lightness: -4%);
+    }
+  }
+
+  &.is-archived {
+    background-color: whitesmoke;
+    border: 1px solid lightgrey;
+    &:hover {
+      background-color: white;
+    }
+  }
+}
+
+.payment-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.is-text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// .price-tag {
+//   background: rgba(255, 231, 93, 0.644);
+//   color: black;
+//   border: 1px solid lightgrey;
+//   border-radius: 4pt;
+//   padding: .25em 1em;
+//   margin-top: -.25em;
+// }
+
+// .tags.is-bordered {
+//   border: 1px solid lightgrey;
+//   border-radius: 4px;
+// }
+
+// .tags > .tag {
+//   margin: 0;
+// }
+
+// .tags.is-bordered {
+//   padding: 0;
+// }
+
+.field-price {
+  font-size: .9em;
+  padding: .05em .5em;
+  border: 1px solid black;
+  border-radius: 4pt;
+  background-color: white !important;
+}
+
+.field-reference {
+  font-size: .85rem;
+  padding-top: .2rem;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
+.field-date {
+  font-size: .85rem;
+}
+
+.payment-item {
+  position: relative;
+}
+
+.payment-url {
+  max-height: 0;
+}
+
+.cover {
+  position: absolute; 
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.navbar.is-small {
+  &,
+  .navbar-brand {
+    min-height: 0;
+  }
+  
+  .navbar-item {
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0.8;
+  }
+}
+
+// === FIXES ===
+
+.notification.is-bordered {
+  border: 1px solid rgb(240, 240, 240);
+}
+
+.section {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.navbar-item:not(:first-of-type) {
+  padding-left: 0.375rem;
+}
+
+.navbar-item:not(:last-of-type) {
+  padding-right: 0.375rem;
+}
+
+.navbar-end > .navbar-item:last-of-type {
+  padding-right: 0.75rem;
+}
+
+.card {
+  box-shadow: 0px 3px 14px -2px rgba(0,0,0,0.17);
+  border-radius: 4pt;
+}
+
+.section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.navbar-brand.is-centered {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.navbar .navbar-brand.is-centered > .navbar-item {
+  display: inline-block;
+}
+
+.navbar-menu {
+  // Make sure the navbar does not break start and end into two lines.
+  display: flex !important;
+}
+
+// https://github.com/jgthms/bulma/issues/1445#issuecomment-345503099
+.navbar-item {
+  display: flex;
+}
+
+.navbar,
+.navbar-menu,
+.navbar-start,
+.navbar-end {
+  align-items: stretch;
+  display: flex;
+  padding: 0;
+}
+
+.navbar-menu {
+  flex-grow: 1;
+  flex-shrink: 0;
+  box-shadow: none;
+}
+.navbar-start {
+  justify-content: flex-start;
+  margin-right: auto;
+}
+.navbar-end {
+  justify-content: flex-end;
+  margin-left: auto;
+}

@@ -1,0 +1,145 @@
+.paypal-icon-inline {
+  display: inline-block !important;
+  height: .95rem !important;
+  margin-bottom: -.24rem;
+  padding: 0 .075rem;
+  opacity: .65;
+}
+
+.button-title {
+  font-size: 1.2rem !important;
+}
+
+.button-subtitle {
+  font-size: .8rem;
+  margin-top: -2pt;
+}
+
+.payment-button:not(:last-of-type) {
+  margin-bottom: 1em;
+}
+
+.payment-button {
+  height: 55px;
+}
+
+.paypal-button-container {
+  width: calc(100% - 1px);
+  display: flex;
+}
+
+.overlay-container {
+  width: 100%;
+  position: relative;
+  user-select: none;
+  padding: -1px;
+}
+
+.fill-parent {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.overlay-background {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.overlay-button {
+  cursor: pointer !important;
+  pointer-events: none;
+}
+
+$paypal-color: #0070ba;
+
+.has-text-paypal {
+  color: adjust-color($color: $paypal-color, $lightness: -0%) !important;
+}
+
+.payment-button .button {
+  height: 100%;
+}
+
+.overlay-button .button {
+  &.is-paypal {
+    background-color: $paypal-color;
+    border: 1px solid adjust-color($color: $paypal-color, $lightness: -5%);
+
+    &.hovering {
+      background-color: adjust-color($color: $paypal-color, $lightness: +6%, $saturation: -20%);
+      border-color: $paypal-color;
+    }
+  }
+}
+
+.button.button-option.is-light {
+  border: 1px solid #e1e1e1;
+
+  &.hovering,
+  &:hover {
+    background-color: rgb(251, 251, 251);
+  }
+}
+
+.overlay-button .button > * {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.paypal-icon {
+  display: inline-block;
+  height: 80%;
+}
+
+.button-text {
+  font-weight: bold;
+}
+
+.button-text-left {
+  margin: 0 2pt;
+}
+
+.button-text-right {
+  margin: 0 0pt;
+}
+
+.is-size-smaller {
+  font-size: .9rem !important;
+
+  &.tag {
+    line-height: .75rem !important;
+  }
+}
+
+.no-select {
+  user-select: none;
+}
+
+.notification.field-price {
+  background: adjust-color($color: gold, $saturation: -20%, $lightness: +45%) !important;
+  border: 1px solid gold;
+}
+
+.notification.is-success.is-bordered {
+  border-color: rgb(156, 187, 156) !important;
+}
+
+.notification > button.delete {
+  &:hover {
+    background-color: rgb(230, 230, 230);
+  }
+  background-color: whitesmoke;
+  &::before, &::after {
+    background-color: grey;
+  }
+}
+
+.title.is-important {
+  background-color: yellow;
+}

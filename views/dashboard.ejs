@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title>Dashboard</title>
+    <%- include('include/head.ejs') %>
+  </head>
+  <body>
+    <% column_layout = 'is-5-widescreen is-6-desktop is-8-tablet is-full-mobile' %>
+    <%- include('components/header.ejs') %>
+    <!-- https://github.com/jgthms/bulma/issues/2616 -->
+    <div class="content" style="overflow-x: hidden;">
+      <div class="columns is-mobile is-centered">
+        <div class="column <%= column_layout %>">
+          <div class="section">
+            <h5 class="title is-5">Aktionen</h5>
+            <div class="buttons">
+              <a class="button is-fullwidth is-info is-light is-outlined" href="/new">
+                Neue Zahlung erstellen
+              </a>
+            </div>
+          </div>
+          <div id="unpaid-payments" class="section">
+            <h5 class="title is-5">
+              Offene Zahlungen
+            </h5>
+            <% payments_unpaid = payments.filter(payment => !payment.paid) %>
+            <% payments_unpaid.sort((a, b) => b.date_created - a.date_created) %>
+            <% payments_archived = payments_unpaid.filter(payment => payment.archived) %>
+            <% payments_unpaid = payments_unpaid.filter(payment => !payment.archived) %>
+            <%- include('components/payments.ejs', {
+              payments: payments_unpaid
+            }) %>
+          </div>
+          <% payments_paid = payments.filter(payment => payment.paid) %>
+          <div id="paid-payments" class="section">
+            <h5 class="title is-5">
+              Abgeschlossene Zahlungen
+              <% if (payments_paid.length > 1) { %>
+                <span class="has-text-grey">
+                  <span class="has-text-grey-lighter">(</span><%=
+                    payments_paid.length
+                  %><span class="has-text-grey-lighter">)</span>
+                </span>
+              <% } %>
+            </h5>
+            <% payments_paid.sort((a, b) => {
+              let sort = a.archived - b.archived;
+              if (sort === 0)
+                sort = b.date_created - a.date_created;
+              return sort;
+            }) %>
+            <%- include('components/payments.ejs', {
+              payments: payments_paid
+            }) %>
+          </div>
+          <% if (payments_archived.length > 0) { %>
+            <div id="archived-payments" class="section">
+              <h5 class="title is-5">
+                Archivierte Zahlungen
+              </h5>
+              <%- include('components/payments.ejs', {
+                payments: payments_archived
+              }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

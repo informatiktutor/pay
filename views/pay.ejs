@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+  <head>
+    <%- include('include/head.ejs') %>
+    <%- include('include/meta.ejs', {
+      title: 'Nachhilfe bezahlen',
+      site_name: 'Nachhilfe bezahlen - ' + payment.price + payment.currency_symbol,
+      description: payment.title
+    }) %>
+    <link rel="stylesheet" href="/styles/pay.css">
+  </head>
+  <body>
+    <% column_layout = column_layout + ' is-11-mobile' %>
+    <% if (authenticated) { %>
+      <%- include('components/header.ejs') %>
+    <% } %>
+    <div class="content">
+      <div class="columns is-mobile is-centered">
+        <div class="column <%= column_layout %>">
+          <%- include('components/payment-page.ejs', { payment }) %>
+        </div>
+      </div>
+    </div>
+    <%- include('components/footer.ejs') %>
+    <% if (authenticated) { %>
+      <script src="/scripts/view/authenticated/pay.js"></script>
+    <% } %>
+    <% for (const i in paypal.sdk_parameters) {
+      const element = paypal.sdk_parameters[i];
+      if (Object.prototype.toString.call(element) === '[object Array]') {
+        paypal.sdk_parameters[i] = element.join(',');
+      }
+    } %>
+    <% if (!payment.paid) { %>
+      <% paypal_script_parameters = new URLSearchParams(paypal.sdk_parameters).toString() %>
+      <script src="https://www.paypal.com/sdk/js?<%= paypal_script_parameters %>"></script>
+    <% } %>
+    <div id="payment-parameters" data-value="<%= JSON.stringify({
+      price: payment.price_value,
+      currency_code: payment.currency_code,
+      reference: payment.reference,
+      title: payment.title
+    }) %>">
+    <% if (!payment.paid) { %>
+      <script src="/scripts/view/pay.js"></script>
+    <% } %>
+  </body>
+</html>

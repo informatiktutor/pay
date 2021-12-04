@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%- include('include/head.ejs') %>
+    <%- include('include/meta.ejs', {
+      title: 'Neue Zahlung erstellen'
+    }) %>
+  </head>
+  <body>
+    <%- include('components/header.ejs') %>
+    <div class="content">
+      <div class="columns is-mobile is-centered">
+        <div class="column <%= column_layout %>">
+          <div id="payment-form-container" class="section">
+            <%- include('components/payment-form.ejs') %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/scripts/util.js"></script>
+    <script src="/scripts/view/authenticated/payment-form.js"></script>
+  </body>
+</html>

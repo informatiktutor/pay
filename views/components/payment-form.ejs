@@ -1,0 +1,65 @@
+<form id="payment-form" method="POST"
+action="<%= locals.id ? '/' + locals.id : '/new' %>">
+  <!-- TODO Allow to select specific payment methods (or disable some) -->
+  <!-- TODO Once it becomes necessary, allow to choose a locale (English, German) -->
+  <div class="field">
+    <label for="title" class="label">Titel</label>
+    <div class="control">
+      <input id="title" name="title" type="text" required
+        class="input" placeholder="Kurzer Titel"
+        value="<%= locals.payment ? payment.title : '' %>">
+    </div>
+  </div>
+  <div class="field">
+    <label for="description" class="label">Beschreibung</label>
+    <div class="control">
+      <textarea id="description" name="description" required="true"
+        class="textarea" placeholder="Inhalt der Nachhilfe"
+        ><%= locals.payment ? payment.description : '' %></textarea>
+    </div>
+  </div>
+  <div class="field has-addons">
+    <div class="control is-expanded">
+      <input name="price" type="number" required
+        min="<%= (form_parameters.min_price_cents / 100).toFixed(2) %>"
+        max="<%= (form_parameters.max_price_cents / 100).toFixed(2) %>"
+        step="<%= form_parameters.min_price_step.toFixed(2) %>"
+        class="input" placeholder="Preis"
+        value="<%= locals.payment ? payment.price : '' %>">
+    </div>
+    <div class="control">
+      <span class="select">
+        <select name="currency_code" required>
+          <% for (const currency_code of form_parameters.currency_codes) { %>
+            <option value="<%= currency_code %>">
+              <%= form_parameters.currency_code_symbols[currency_code]
+              %>&ensp;<%= currency_code %>
+            </option>
+          <% } %>
+        </select>
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="reference" class="label">Referenz-Nummer</label>
+    <div class="control">
+      <input id="reference" name="reference" type="text" required
+        class="input" placeholder="INFXX0123" spellcheck="false"
+        value="<%= locals.payment ? payment.reference : '' %>">
+    </div>
+  </div>
+  <div class="columns is-mobile is-multiline mt-5">
+    <div class="column is-button-width is-auto-tablet is-full-mobile">
+      <button id="submit-button" value="Erstellen" class="button is-fullwidth is-link">
+        <%= locals.payment ? 'Speichern' : 'Erstellen' %>
+      </button>
+    </div>
+    <div class="column is-button-width is-vertical is-auto-tablet is-mobile-stacked">
+      <a href="/dashboard" class="button is-fullwidth is-link is-light is-outlined">
+        Abbrechen
+      </a>
+    </div>
+  </div>
+  <input type="submit" form="payment-form" class="is-hidden" name="submit">
+</form>
+<div id="spacer" class="is-hidden" style="height: 100vh"></div>
